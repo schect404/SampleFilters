@@ -11,14 +11,7 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        startKoin(
-            this, listOf(
-                dataModule,
-                domainModule,
-                actorsModule,
-                appModule
-            )
-        )
+        startKoin(this, listOf(dataModule, domainModule, actorsModule, appModule))
     }
 
 }
