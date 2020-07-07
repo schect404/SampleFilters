@@ -10,16 +10,16 @@ private const val MOVE_DEFAULT_TIME: Long = 700
 private const val FADE_DEFAULT_TIME: Long = 100
 
 fun Fragment.animateExit() {
-    val exitFade = Fade()
-    exitFade.duration = MOVE_DEFAULT_TIME
-    exitTransition = exitFade
+    exitTransition = Fade().apply {
+        duration = MOVE_DEFAULT_TIME
+    }
 }
 
 fun Fragment.animateEnter() {
-    val enterFade = Fade()
-    enterFade.duration = MOVE_DEFAULT_TIME
-    enterFade.startDelay = FADE_DEFAULT_TIME
-    enterTransition = enterFade
+    enterTransition = Fade().apply {
+        duration = MOVE_DEFAULT_TIME
+        startDelay = FADE_DEFAULT_TIME
+    }
 }
 
 fun Fragment.animateShared(context: Context) {
