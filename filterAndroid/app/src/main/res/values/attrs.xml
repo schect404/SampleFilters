@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="color_accent" format="color" />
+    <attr name="color_accent_button_text" format="color" />
+    <attr name="color_text_regular" format="color" />
+    <attr name="color_text_bold" format="color" />
+    <attr name="color_text_hint" format="color" />
+    <attr name="color_text_inverse" format="color" />
+    <attr name="edit_text_bg" format="color" />
+    <attr name="color_background" format="color" />
+    <attr name="error_background" format="color" />
+    <attr name="color_shimmer" format="color" />
+    <attr name="color_separator" format="color" />
+    <attr name="color_alert" format="color" />
+    <attr name="color_info" format="color" />
+
+</resources>

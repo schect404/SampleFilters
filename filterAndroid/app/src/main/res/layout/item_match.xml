@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.samplearchitecture.presentation.main.model.MatchesItems.AppMatch" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_8sdp"
+        android:layout_marginHorizontal="@dimen/_4sdp"
+        app:cardCornerRadius="@dimen/_4sdp"
+        app:cardElevation="@dimen/_4sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sdp">
+
+                <ImageView
+                    android:id="@+id/vAvatar"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    app:image="@{item.match.mainPhoto}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/vMain"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/vAvatar"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tvScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Text.14"
+                        app:score="@{item.match.compatibilityScore}"
+                        tools:text="36 %"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvDisplayName"
+                        android:layout_width="0dp"
+                        style="@style/Text.14"
+                        android:layout_height="wrap_content"
+                        android:text="@{item.match.displayName}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tvScore"
+                        android:ellipsize="end"
+                        tools:text="Display name"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvJobTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/Text.12"
+                        app:layout_constraintTop_toBottomOf="@id/tvDisplayName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/guideline"
+                        tools:text="CEO"
+                        android:text="@{item.match.jobTitle}"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"/>
+
+                    <TextView
+                        android:id="@+id/tvAge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/Text.12"
+                        app:layout_constraintTop_toBottomOf="@id/tvJobTitle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/guideline"
+                        tools:text="Age: 43"
+                        app:value="@{String.valueOf(item.match.age)}"
+                        app:label="@{@string/age_raw}"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:layout_marginTop="@dimen/_6sdp" />
+
+                    <TextView
+                        android:id="@+id/tvInFavourites"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/Text.Bold.12"
+                        app:layout_constraintTop_toBottomOf="@id/tvAge"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/guideline"
+                        android:text="@string/in_favourites"
+                        app:visibleIf="@{item.match.favourites}"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:layout_marginTop="@dimen/_6sdp" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <TextView
+                        android:id="@+id/tvHeight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/Text.12"
+                        app:layout_constraintBottom_toBottomOf="@id/tvJobTitle"
+                        app:layout_constraintStart_toStartOf="@id/guideline"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="Height: 190"
+                        app:value="@{String.valueOf(item.match.height)}"
+                        app:label="@{@string/height_raw}"
+                        android:layout_marginTop="@dimen/_6sdp" />
+
+                    <TextView
+                        android:id="@+id/tvContacts"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/Text.12"
+                        app:layout_constraintTop_toBottomOf="@id/tvHeight"
+                        app:layout_constraintStart_toStartOf="@id/guideline"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="Contacts: 190"
+                        app:value="@{String.valueOf(item.match.contacts)}"
+                        app:label="@{@string/contacts}"
+                        android:layout_marginTop="@dimen/_6sdp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

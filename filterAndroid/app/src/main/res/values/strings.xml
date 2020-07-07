@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">SampleFilters</string>
+    <string name="has_avatar">Has avatar</string>
+    <string name="has_contacts">Has contacts</string>
+    <string name="in_favourite">In favourite</string>
+    <string name="not_defined">Not defined</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="filter">Filter</string>
+    <string name="cancel">Cancel</string>
+    <string name="compatibility_score">Compatibility score, %</string>
+    <string name="age">Age, y.o.</string>
+    <string name="height">Height, cm</string>
+    <string name="height_raw">Height</string>
+    <string name="age_raw">Age</string>
+    <string name="contacts">Contacts</string>
+    <string name="apply">Apply</string>
+    <string name="not_found">Not found</string>
+    <string name="in_favourites">In Favourites</string>
+</resources>
