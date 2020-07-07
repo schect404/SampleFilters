@@ -11,11 +11,7 @@ object FiltersBinding {
     @JvmStatic
     @BindingAdapter("app:choice")
     fun setChoice(chipGroup: ChipGroup, filter: Filters.BooleanFilter) {
-        chipGroup.check(when(filter.isFilterActive) {
-            null -> R.id.chipNotDefined
-            true -> R.id.chipYes
-            false -> R.id.chipNo
-        })
+        chipGroup.check(filter.toIdRes())
     }
 
     @JvmStatic
@@ -29,3 +25,10 @@ object FiltersBinding {
     }
 
 }
+
+fun Filters.BooleanFilter.toIdRes() =
+    when(isFilterActive) {
+        null -> R.id.chipNotDefined
+        true -> R.id.chipYes
+        false -> R.id.chipNo
+    }

@@ -5,6 +5,7 @@ import com.example.data.matches.conversions.toApi
 import com.example.data.matches.conversions.toDomain
 import com.example.domain.matches.gateway.MatchesRepository
 import com.example.domain.matches.model.DomainFilters
+import com.example.domain.matches.model.Match
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -18,7 +19,7 @@ class MatchesRepositoryImpl(private val api: MatchesApi) : MatchesRepository {
             val domainMatches = matches.map { it.toDomain() }
             emit(domainMatches)
         }
-        .catch { emit(listOf()) }
+        .catch { emit(listOf<Match>()) }
         .flowOn(Dispatchers.IO)
 
 }

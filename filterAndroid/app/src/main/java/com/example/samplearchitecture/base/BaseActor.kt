@@ -60,11 +60,12 @@ abstract class BaseActor<VI : BaseViewIntent, SI : BaseModelIntent, S : BaseView
             errorFlow.value = it.parseError()
         }
 
-    private fun Throwable.parseError(): String? {
-        val error = (this as? HttpException) ?: return message
-        val bodyAsString = error.response()?.errorBody()?.string() ?: return message
-        val bodyAsObject = JsonParser().parse(bodyAsString).asJsonObject
-        return bodyAsObject?.get("text")?.asString ?: message
-    }
+}
 
+
+fun Throwable.parseError(): String? {
+    val error = (this as? HttpException) ?: return message
+    val bodyAsString = error.response()?.errorBody()?.string() ?: return message
+    val bodyAsObject = JsonParser().parse(bodyAsString).asJsonObject
+    return bodyAsObject?.get("text")?.asString ?: message
 }

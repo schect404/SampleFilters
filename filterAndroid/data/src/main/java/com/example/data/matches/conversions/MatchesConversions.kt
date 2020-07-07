@@ -15,7 +15,7 @@ fun Range.toApi() =
 
 fun DomainFilters.toApi() =
     ApiFilters(
-        hasAccount = hasAccount,
+        hasAccount = hasAvatar,
         hasContact = hasContact,
         favourite = inFavourites,
         compatibilityScore = compatibilityScore?.toApi(),
