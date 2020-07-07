@@ -13,5 +13,5 @@ data class Match (
     val contacts: Int,
     val height: Int,
     val compatibilityScore: Double,
-    val favourites: Boolean
+    val inFavourites: Boolean
 ): Parcelable

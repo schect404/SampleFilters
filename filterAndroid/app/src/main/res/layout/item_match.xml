@@ -101,7 +101,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/guideline"
                         android:text="@string/in_favourites"
-                        app:visibleIf="@{item.match.favourites}"
+                        app:visibleIf="@{item.match.inFavourites}"
                         android:layout_marginEnd="@dimen/_4sdp"
                         android:layout_marginTop="@dimen/_6sdp" />
 

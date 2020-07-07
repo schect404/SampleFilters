@@ -17,7 +17,7 @@ fun DomainFilters.toApi() =
     ApiFilters(
         hasAccount = hasAccount,
         hasContact = hasContact,
-        favourite = favourite,
+        favourite = inFavourites,
         compatibilityScore = compatibilityScore?.toApi(),
         age = age?.toApi(),
         height = height?.toApi()
@@ -33,5 +33,5 @@ fun ApiMatch.toDomain() =
         contacts = contacts ?: 0,
         height = height ?: 0,
         compatibilityScore = compatibilityScore ?: 0.0,
-        favourites = favourite ?: false
+        inFavourites = favourite ?: false
     )
