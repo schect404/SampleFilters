@@ -7,24 +7,15 @@ import kotlinx.coroutines.flow.*
 class FiltersActor : BaseActor<FiltersContract.ViewIntent, StubModelIntent,
         FiltersContract.ViewState, FiltersContract.PartialChange>() {
 
-    override val initialState =
-        FiltersContract.ViewState()
+    override val initialState = FiltersContract.ViewState()
 
     override fun Flow<FiltersContract.ViewIntent>.handleIntent(): Flow<FiltersContract.PartialChange> {
         val initialFlow = filterIsInstance<FiltersContract.ViewIntent.Initial>()
             .take(1)
-            .map {
-                FiltersContract.PartialChange.FiltersLoaded(
-                    it.filters
-                )
-            }
+            .map { FiltersContract.PartialChange.FiltersLoaded(it.filters) }
 
         val filterChanged = filterIsInstance<FiltersContract.ViewIntent.FilterChanged>()
-            .map {
-                FiltersContract.PartialChange.FilterChanged(
-                    it.filter
-                )
-            }
+            .map { FiltersContract.PartialChange.FilterChanged(it.filter) }
 
         return merge(
             initialFlow,

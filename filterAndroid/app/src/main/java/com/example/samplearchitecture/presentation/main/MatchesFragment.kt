@@ -33,7 +33,8 @@ class MatchesFragment: BaseFragment<MatchesContract.ViewIntent,
 
     private val filtersDelegate: FiltersDelegate = get()
 
-    private val flow = MutableStateFlow<MatchesContract.ViewIntent?>(null)
+    private val flow =
+        MutableStateFlow<MatchesContract.ViewIntent?>(null)
 
     private val adapter = LastAdapter(items, BR.item)
         .map<MatchesItems.AppMatch>(R.layout.item_match)

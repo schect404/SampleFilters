@@ -39,9 +39,7 @@ abstract class BaseActor<VI : BaseViewIntent, SI : BaseModelIntent, S : BaseView
             .handleIntent()
             .onEach { it.getSingleEvent()?.let { pushSingleEvent(it) } }
             .scan(viewState.value ?: initialState) { vs, change -> change.reduceToState(vs) }
-            .onEach {
-                viewState.value = it
-            }
+            .onEach { viewState.value = it }
             .launchIn(viewModelScope)
 
     }
@@ -59,11 +57,14 @@ abstract class BaseActor<VI : BaseViewIntent, SI : BaseModelIntent, S : BaseView
     protected fun <T> Flow<T>.runWithoutProgress(rethrowError: Boolean = false) =
         catch {
             if(rethrowError) throw it
-            else {
-                val string = (it as? HttpException)?.response()?.errorBody()?.string()
-                val body = string?.let { JsonParser().parse(it).asJsonObject }
-                errorFlow.value = body?.get("text")?.asString ?: it.message
-            }
+            errorFlow.value = it.parseError()
         }
+
+    private fun Throwable.parseError(): String? {
+        val error = (this as? HttpException) ?: return message
+        val bodyAsString = error.response()?.errorBody()?.string() ?: return message
+        val bodyAsObject = JsonParser().parse(bodyAsString).asJsonObject
+        return bodyAsObject?.get("text")?.asString ?: message
+    }
 
 }

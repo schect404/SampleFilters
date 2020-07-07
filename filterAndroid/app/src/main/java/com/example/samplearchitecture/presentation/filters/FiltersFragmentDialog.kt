@@ -45,18 +45,7 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
                 lifecycleScope.launchWhenStarted {
                     holder.itemView.chipGroup
                         .chipChanges()
-                        .onEach { selection ->
-                            holder.binding.item?.let { flow.value = FiltersContract.ViewIntent.FilterChanged(
-                                    it.copy(isFilterActive =
-                                        when (selection) {
-                                            R.id.chipNo -> false
-                                            R.id.chipYes -> true
-                                            else -> null
-                                        }
-                                    )
-                                )
-                            }
-                        }
+                        .onEach { holder.binding.item?.onSelectFilterValue(it) }
                         .collect()
                 }
             }
@@ -65,17 +54,7 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
             onCreate { holder ->
                 lifecycleScope.launchWhenStarted {
                     holder.itemView.rangeSeekbar.rangeApplies()
-                        .onEach { range ->
-                            holder.binding.item?.let {
-                                flow.value = FiltersContract.ViewIntent.FilterChanged(
-                                    it.copy(rangeCurrent = Range(
-                                        range.first.toInt(),
-                                        range.second.toInt()
-                                    )
-                                    )
-                                )
-                            }
-                        }
+                        .onEach { holder.binding.item?.onSelectRange(it) }
                         .collect()
                 }
 
@@ -87,7 +66,6 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
                         }
                         .collect()
                 }
-
             }
         }
 
@@ -113,6 +91,24 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
             FiltersContract.ViewIntent.Initial(savedInstanceState?.getParcelableArrayList(STATE) ?: filters)
     }
 
+    private fun Int.getFiltersActive() = when(this) {
+        R.id.chipNo -> false
+        R.id.chipYes -> true
+        else -> null
+    }
+
+    private fun Filters.BooleanFilter.onSelectFilterValue(selection: Int) {
+        flow.value = FiltersContract.ViewIntent.FilterChanged(
+            copy(isFilterActive = selection.getFiltersActive())
+        )
+    }
+
+    private fun Filters.RangeFilter.onSelectRange(range: Pair<Number, Number>) {
+        flow.value = FiltersContract.ViewIntent.FilterChanged(
+            copy(rangeCurrent = Range(range.first.toInt(), range.second.toInt()))
+        )
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(STATE, ArrayList(items.list()))
@@ -134,7 +130,9 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
         fun show(activity: FragmentActivity, filter: List<Filters>?) {
             FiltersFragmentDialog()
                 .apply {
-                    arguments = Bundle().apply { putParcelableArrayList(FILTERS, ArrayList(filter ?: listOf())) }
+                    arguments = Bundle().apply {
+                        putParcelableArrayList(FILTERS, ArrayList(filter ?: listOf()))
+                    }
                 }
                 .show(activity.supportFragmentManager, FiltersFragmentDialog::class.java.name)
         }
