@@ -15,19 +15,16 @@ class RetrofitFactoryImpl(
     override fun createRetrofit(gson: Gson): Retrofit {
 
         val okHttpBuilder = okHttpClient.newBuilder()
-
-        val loggingInterceptor = HttpLoggingInterceptor()
-         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-
-        okHttpBuilder.addInterceptor(loggingInterceptor)
-
-        okHttpBuilder
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
             .connectTimeout(TIMEOUT_SECS, TimeUnit.SECONDS)
             .readTimeout(TIMEOUT_SECS, TimeUnit.SECONDS)
+            .build()
 
         val builder: Retrofit.Builder = Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
-            .client(okHttpBuilder.build())
+            .client(okHttpBuilder)
             .addConverterFactory(GsonConverterFactory.create(gson))
 
         return builder.build()
