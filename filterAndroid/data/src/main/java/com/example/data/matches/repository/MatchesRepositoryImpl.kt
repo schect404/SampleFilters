@@ -10,11 +10,15 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class MatchesRepositoryImpl(private val api: MatchesApi): MatchesRepository {
+class MatchesRepositoryImpl(private val api: MatchesApi) : MatchesRepository {
 
     override fun getMatches(filters: DomainFilters) =
-        flow { emit(api.getMatches(filters.toApi()).map { it.toDomain() }) }
-            .catch { emit(listOf()) }
-            .flowOn(Dispatchers.IO)
+        flow {
+            val matches = api.getMatches(filters.toApi())
+            val domainMatches = matches.map { it.toDomain() }
+            emit(domainMatches)
+        }
+        .catch { emit(listOf()) }
+        .flowOn(Dispatchers.IO)
 
 }
