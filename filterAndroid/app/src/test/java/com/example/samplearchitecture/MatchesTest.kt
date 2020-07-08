@@ -1,8 +1,5 @@
 package com.example.samplearchitecture
 
-import com.example.data.matches.api.MatchesApi
-import com.example.data.matches.conversions.toApi
-import com.example.data.matches.repository.MatchesRepositoryImpl
 import com.example.domain.matches.model.DomainFilters
 import com.example.domain.matches.model.Range
 import com.example.samplearchitecture.base.parseError
@@ -10,10 +7,6 @@ import com.example.samplearchitecture.presentation.filters.binding.toIdRes
 import com.example.samplearchitecture.presentation.filters.model.Filters
 import com.example.samplearchitecture.presentation.filters.model.toFilters
 import com.google.gson.JsonObject
-import com.nhaarman.mockitokotlin2.given
-import com.nhaarman.mockitokotlin2.mock
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.junit.Test
