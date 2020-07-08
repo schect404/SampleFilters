@@ -1,6 +1,7 @@
 # SampleFilters
 
 > Backend folder  - /filterBack
+
 > Android project folder - /filterAndroid (better to open that folder from Android studio)
 
 **Used technologies**
