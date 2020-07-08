@@ -15,9 +15,12 @@ class RetrofitFactoryImpl(
     override fun createRetrofit(gson: Gson): Retrofit {
 
         val okHttpBuilder = okHttpClient.newBuilder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .apply {
+                if(BuildConfig.DEBUG)
+                    addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    })
+            }
             .connectTimeout(TIMEOUT_SECS, TimeUnit.SECONDS)
             .readTimeout(TIMEOUT_SECS, TimeUnit.SECONDS)
             .build()

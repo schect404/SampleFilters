@@ -1,6 +1,5 @@
 package com.example.samplearchitecture
 
-import android.util.JsonWriter
 import com.example.data.matches.api.MatchesApi
 import com.example.data.matches.conversions.toApi
 import com.example.data.matches.repository.MatchesRepositoryImpl
@@ -17,13 +16,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
 import kotlin.random.Random
 import kotlin.random.nextInt
-
 
 class MatchesTest {
 
@@ -89,41 +86,6 @@ class MatchesTest {
                 }
             )
         }
-    }
-
-    @Test
-    fun `error when getting matches`() {
-        //GIVEN
-        val serviceApi = mock<MatchesApi>()
-        val repository = MatchesRepositoryImpl(serviceApi)
-
-        val filters = DomainFilters(
-            hasAvatar = randomizeBooleanFilter(),
-            hasContact = randomizeBooleanFilter(),
-            inFavourites = randomizeBooleanFilter(),
-            age = randomizeRangeFilter(18..95),
-            height = randomizeRangeFilter(135..215),
-            compatibilityScore = randomizeRangeFilter(1..99)
-        )
-        runBlocking {
-            val apiErrorText = "Api error"
-            val body = JsonObject().apply {
-                addProperty("text", apiErrorText)
-            }.toString()
-            val exception = HttpException(createResponseWithCodeAndJson(400, body))
-            given(serviceApi.getMatches(filters.toApi())).willThrow(exception)
-
-            //WHEN
-            val responseFlow = repository.getMatches(filters)
-
-
-            //THEN
-            responseFlow.collect {
-                assert(it.isEmpty())
-            }
-
-        }
-
     }
 
     @Test

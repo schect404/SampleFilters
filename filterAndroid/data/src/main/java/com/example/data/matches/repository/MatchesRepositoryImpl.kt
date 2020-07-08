@@ -19,7 +19,6 @@ class MatchesRepositoryImpl(private val api: MatchesApi) : MatchesRepository {
             val domainMatches = matches.map { it.toDomain() }
             emit(domainMatches)
         }
-        .catch { emit(listOf<Match>()) }
         .flowOn(Dispatchers.IO)
 
 }

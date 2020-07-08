@@ -85,7 +85,7 @@ ext.okhttp = okhttp
 //endregion
 
 //region Koin
-versions.koin = "1.0.2"
+versions.koin = "2.0.1"
 
 def koin = [:]
 koin.koin = "org.koin:koin-android:${versions.koin}"
@@ -106,7 +106,7 @@ ext.google = google
 //endregion
 
 //region Lifecycle
-versions.lifecycle = '2.3.0-alpha02'
+versions.lifecycle = '2.3.0-alpha05'
 def lifecycle = [:]
 lifecycle.vmScope = "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
 lifecycle.lcScope = "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}"

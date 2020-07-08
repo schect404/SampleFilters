@@ -8,7 +8,7 @@ import com.example.domain.matches.gateway.MatchesRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val dataModule = module(override = true) {

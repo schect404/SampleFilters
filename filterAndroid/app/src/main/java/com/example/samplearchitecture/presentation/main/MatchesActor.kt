@@ -1,6 +1,7 @@
 package com.example.samplearchitecture.presentation.main
 
 import com.example.domain.matches.interactor.MatchesInteractor
+import com.example.domain.matches.model.Match
 import com.example.samplearchitecture.base.BaseActor
 import com.example.samplearchitecture.presentation.filters.model.Filters
 import com.example.samplearchitecture.presentation.filters.model.toFilters
@@ -30,7 +31,7 @@ class MatchesActor(private val matchesInteractor: MatchesInteractor) : BaseActor
     private fun getMatches(filters: List<Filters>) =
             flow {
                 matchesInteractor.getMatches(filters.toFilters())
-                    .runWithoutProgress()
+                    .runWithoutProgress(rethrowError = true)
                     .onEach {
                         if(it.isEmpty()) emit(MatchesContract.PartialChange.Error)
                         else emit(MatchesContract.PartialChange.ItemsLoaded(it.map {
@@ -41,6 +42,7 @@ class MatchesActor(private val matchesInteractor: MatchesInteractor) : BaseActor
                         emit(MatchesContract.PartialChange.Skeletons)
                         emit(MatchesContract.PartialChange.FiltersChanged(filters))
                     }
+                    .catch { emit(listOf<Match>()) }
                     .collect()
             }
 
