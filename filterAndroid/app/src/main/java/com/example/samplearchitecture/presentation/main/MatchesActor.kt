@@ -42,7 +42,7 @@ class MatchesActor(private val matchesInteractor: MatchesInteractor) : BaseActor
                         emit(MatchesContract.PartialChange.Skeletons)
                         emit(MatchesContract.PartialChange.FiltersChanged(filters))
                     }
-                    .catch { emit(listOf<Match>()) }
+                    .catch { emit(MatchesContract.PartialChange.Error) }
                     .collect()
             }
 
