@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.example.samplearchitecture.base.BasePartialChange
 import com.example.samplearchitecture.base.BaseViewIntent
 import com.example.samplearchitecture.base.BaseViewState
+import com.example.samplearchitecture.presentation.filters.model.AvailableFilters
 import com.example.samplearchitecture.presentation.filters.model.Filters
 import com.example.samplearchitecture.presentation.main.model.MatchesItems
 import kotlinx.android.parcel.Parcelize
@@ -20,7 +21,7 @@ interface MatchesContract {
     @Parcelize
     data class ViewState(
         val items: List<MatchesItems> = listOf(),
-        val filters: List<Filters> = Filters.Filter.generateInitialFilters()
+        val filters: List<Filters> = AvailableFilters.generateInitialFilters()
     ): BaseViewState, Parcelable
 
     sealed class PartialChange : BasePartialChange<ViewState> {
@@ -39,7 +40,7 @@ interface MatchesContract {
                 initialState.copy(filters = filters)
         }
 
-        data class ItemsLoaded(val items: List<MatchesItems.AppMatch>): PartialChange() {
+        class ItemsLoaded(val items: List<MatchesItems.AppMatch>): PartialChange() {
             override fun reduceToState(initialState: ViewState) =
                 initialState.copy(items = items)
         }

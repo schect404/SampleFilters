@@ -15,7 +15,7 @@ class FiltersDelegateImpl : FiltersDelegate {
     override val filtersFlow = MutableStateFlow<List<Filters>?>(null)
 
     override fun filtersChanged(list: List<Filters>) {
-        filtersFlow.value = list
+        filtersFlow.value = list.toList()
     }
 
 }

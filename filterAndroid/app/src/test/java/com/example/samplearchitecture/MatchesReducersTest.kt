@@ -2,6 +2,7 @@ package com.example.samplearchitecture
 
 import android.os.Build
 import com.example.domain.matches.model.Match
+import com.example.samplearchitecture.presentation.filters.model.AvailableFilters
 import com.example.samplearchitecture.presentation.filters.model.Filters
 import com.example.samplearchitecture.presentation.main.MatchesContract
 import com.example.samplearchitecture.presentation.main.model.MatchesItems
@@ -48,7 +49,7 @@ class MatchesReducersTest {
     fun checkFiltersInMatchesReducer() {
         //GIVEN
         val currentViewState = MatchesContract.ViewState()
-        val filterToChange = Filters.BooleanFilter(Filters.Filter.HAS_AVATAR, false)
+        val filterToChange = Filters.BooleanFilter(AvailableFilters.HAS_AVATAR, false)
 
         val filtersMutable = currentViewState.filters.toMutableList()
 

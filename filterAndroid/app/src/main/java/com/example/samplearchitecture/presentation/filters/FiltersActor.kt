@@ -12,7 +12,7 @@ class FiltersActor : BaseActor<FiltersContract.ViewIntent, StubModelIntent,
     override fun Flow<FiltersContract.ViewIntent>.handleIntent(): Flow<FiltersContract.PartialChange> {
         val initialFlow = filterIsInstance<FiltersContract.ViewIntent.Initial>()
             .take(1)
-            .map { FiltersContract.PartialChange.FiltersLoaded(it.filters) }
+            .map { FiltersContract.PartialChange.FiltersLoaded(it.filters.toList()) }
 
         val filterChanged = filterIsInstance<FiltersContract.ViewIntent.FilterChanged>()
             .map { FiltersContract.PartialChange.FilterChanged(it.filter) }

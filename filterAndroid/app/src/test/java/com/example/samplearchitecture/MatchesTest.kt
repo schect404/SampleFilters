@@ -4,6 +4,7 @@ import com.example.domain.matches.model.DomainFilters
 import com.example.domain.matches.model.Range
 import com.example.samplearchitecture.base.parseError
 import com.example.samplearchitecture.presentation.filters.binding.toIdRes
+import com.example.samplearchitecture.presentation.filters.model.AvailableFilters
 import com.example.samplearchitecture.presentation.filters.model.Filters
 import com.example.samplearchitecture.presentation.filters.model.toFilters
 import com.google.gson.JsonObject
@@ -29,18 +30,18 @@ class MatchesTest {
             val height = randomizeRangeFilter(135..215)
 
             val initialFilters = arrayListOf<Filters>().apply {
-                add(Filters.BooleanFilter(Filters.Filter.HAS_AVATAR, hasAvatar))
-                add(Filters.BooleanFilter(Filters.Filter.HAS_CONTACTS, hasContacts))
-                add(Filters.BooleanFilter(Filters.Filter.FAVOURITE, favourite))
+                add(Filters.BooleanFilter(AvailableFilters.HAS_AVATAR, hasAvatar))
+                add(Filters.BooleanFilter(AvailableFilters.HAS_CONTACTS, hasContacts))
+                add(Filters.BooleanFilter(AvailableFilters.FAVOURITE, favourite))
                 add(
                     Filters.RangeFilter(
-                        Filters.Filter.COMPATIBILITY_SCORE,
+                        AvailableFilters.COMPATIBILITY_SCORE,
                         Range(1, 99),
                         compatibilityScore
                     )
                 )
-                add(Filters.RangeFilter(Filters.Filter.AGE, Range(18, 95), age))
-                add(Filters.RangeFilter(Filters.Filter.HEIGHT, Range(135, 215), height))
+                add(Filters.RangeFilter(AvailableFilters.AGE, Range(18, 95), age))
+                add(Filters.RangeFilter(AvailableFilters.HEIGHT, Range(135, 215), height))
             }
 
             val filtersExpected = DomainFilters(
@@ -65,7 +66,7 @@ class MatchesTest {
         for(i in 0..10) {
             //GIVEN
             val filterValue =
-                Filters.BooleanFilter(Filters.Filter.HAS_AVATAR, randomizeBooleanFilter())
+                Filters.BooleanFilter(AvailableFilters.HAS_AVATAR, randomizeBooleanFilter())
 
             //WHEN
             val idRes = filterValue.toIdRes()

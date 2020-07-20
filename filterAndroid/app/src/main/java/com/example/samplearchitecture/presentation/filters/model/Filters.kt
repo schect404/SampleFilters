@@ -13,51 +13,43 @@ sealed class Filters(
 
     open fun getFilterData(): Any? = null
 
+    open fun copyEntity() = this
+
     @Parcelize
     data class BooleanFilter(
-        val type: Filter,
-        val isFilterActive: Boolean? = null
+        val type: AvailableFilters,
+        private var isFilterActivePrivate: Boolean? = null
     ) : Filters(type.id, type.titleRes) {
+
+        val isFilterActive
+            get() = isFilterActivePrivate
+
+        fun setIsFilterActive(isFilterActive: Boolean?) {
+            isFilterActivePrivate = isFilterActive
+        }
+
         override fun getFilterData() = isFilterActive
+
+        override fun copyEntity() = copy()
     }
 
     @Parcelize
     data class RangeFilter(
-        val type: Filter,
+        val type: AvailableFilters,
         val rangeMax: Range,
-        val rangeCurrent: Range
+        private var rangeCurrentPrivate: Range
     ) : Filters(type.id, type.titleRes) {
-        override fun getFilterData() = rangeCurrent
-    }
 
-    enum class Filter(val id: String, @StringRes val titleRes: Int,
-                      val rangeMin: Int, val rangeMax: Int, val type: FilterTypes
-    ) {
-        HAS_AVATAR("has_avatar", R.string.has_avatar, 0, 0, FilterTypes.BOOLEAN),
-        HAS_CONTACTS("has_contacts", R.string.has_contacts, 0, 0, FilterTypes.BOOLEAN),
-        FAVOURITE("favourite", R.string.in_favourite, 0, 0, FilterTypes.BOOLEAN),
-        COMPATIBILITY_SCORE("compatibility", R.string.compatibility_score, 1, 99, FilterTypes.RANGE),
-        AGE("age", R.string.age, 18, 95, FilterTypes.RANGE),
-        HEIGHT("height", R.string.height, 135, 210, FilterTypes.RANGE);
+        val rangeCurrent
+            get() = rangeCurrentPrivate
 
-        fun getFilterData(list: List<Filters>) = list.firstOrNull { it.id == id }?.getFilterData()
-
-        companion object {
-            fun generateInitialFilters() = values().map {
-                when(it.type) {
-                    FilterTypes.BOOLEAN -> BooleanFilter(it)
-                    FilterTypes.RANGE -> RangeFilter(
-                        it, Range(it.rangeMin, it.rangeMax),
-                        Range(it.rangeMin, it.rangeMax)
-                    )
-                }
-            }
+        fun setRangeCurrent(rangeCurrent: Range) {
+            rangeCurrentPrivate = rangeCurrent
         }
-    }
 
-    enum class FilterTypes {
-        BOOLEAN,
-        RANGE
+        override fun getFilterData() = rangeCurrent
+
+        override fun copyEntity() = copy()
     }
 
 }

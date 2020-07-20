@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import com.example.domain.matches.model.Range
 import com.example.samplearchitecture.BR
 import com.example.samplearchitecture.R
@@ -27,7 +28,7 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
         FiltersContract.ViewState, FiltersContract.PartialChange>() {
 
     private val filters: List<Filters>
-        get() = arguments?.getParcelableArrayList(FILTERS) ?: listOf()
+        get() = arguments?.getParcelableArrayList(FILTERS) ?: emptyList()
 
     override val layoutRes = R.layout.view_filters_dialog
 
@@ -45,7 +46,9 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
                 lifecycleScope.launchWhenStarted {
                     holder.itemView.chipGroup
                         .chipChanges()
-                        .onEach { holder.binding.item?.onSelectFilterValue(it) }
+                        .onEach {
+                            holder.binding.item?.onSelectFilterValue(it)
+                        }
                         .collect()
                 }
             }
@@ -54,7 +57,9 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
             onCreate { holder ->
                 lifecycleScope.launchWhenStarted {
                     holder.itemView.rangeSeekbar.rangeApplies()
-                        .onEach { holder.binding.item?.onSelectRange(it) }
+                        .onEach {
+                            holder.binding.item?.onSelectRange(it)
+                        }
                         .collect()
                 }
 
@@ -88,7 +93,8 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
                 .collect()
         }
         flow.value =
-            FiltersContract.ViewIntent.Initial(savedInstanceState?.getParcelableArrayList(STATE) ?: filters)
+            FiltersContract.ViewIntent.Initial(
+                savedInstanceState?.getParcelableArrayList(STATE) ?: filters.map { it.copyEntity() })
     }
 
     private fun Int.getFiltersActive() = when(this) {
@@ -98,15 +104,13 @@ class FiltersFragmentDialog : BaseDialogFragment<FiltersContract.ViewIntent, Stu
     }
 
     private fun Filters.BooleanFilter.onSelectFilterValue(selection: Int) {
-        flow.value = FiltersContract.ViewIntent.FilterChanged(
-            copy(isFilterActive = selection.getFiltersActive())
-        )
+        setIsFilterActive(selection.getFiltersActive())
+        flow.value = FiltersContract.ViewIntent.FilterChanged(this)
     }
 
     private fun Filters.RangeFilter.onSelectRange(range: Pair<Number, Number>) {
-        flow.value = FiltersContract.ViewIntent.FilterChanged(
-            copy(rangeCurrent = Range(range.first.toInt(), range.second.toInt()))
-        )
+        setRangeCurrent(Range(range.first.toInt(), range.second.toInt()))
+        flow.value = FiltersContract.ViewIntent.FilterChanged(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

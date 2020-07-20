@@ -2,6 +2,7 @@ package com.example.samplearchitecture
 
 import android.os.Build
 import com.example.samplearchitecture.presentation.filters.FiltersContract
+import com.example.samplearchitecture.presentation.filters.model.AvailableFilters
 import com.example.samplearchitecture.presentation.filters.model.Filters
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,7 +17,7 @@ class FiltersReducersTest {
     fun checkFiltersReducing() {
         //GIVEN
         val initialViewState = FiltersContract.ViewState()
-        val filters = Filters.Filter.generateInitialFilters()
+        val filters = AvailableFilters.generateInitialFilters()
 
         val expectedViewState = initialViewState.copy(filters = filters)
 
@@ -32,11 +33,11 @@ class FiltersReducersTest {
     fun checkFilterChangesReducing() {
         //GIVEN
         val initialViewState = FiltersContract.ViewState()
-        val filters = Filters.Filter.generateInitialFilters()
+        val filters = AvailableFilters.generateInitialFilters()
 
         val currentViewState = initialViewState.copy(filters = filters)
 
-        val filterToChange = Filters.BooleanFilter(Filters.Filter.HAS_AVATAR, false)
+        val filterToChange = Filters.BooleanFilter(AvailableFilters.HAS_AVATAR, false)
 
         val filtersMutable = currentViewState.filters.toMutableList()
 

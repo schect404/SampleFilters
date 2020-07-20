@@ -7,4 +7,8 @@ import kotlinx.android.parcel.Parcelize
 data class Range (
     val min: Int,
     val max: Int
-): Parcelable
+): Parcelable {
+
+    fun areSimilar(other: Range) = min == other.min && max == other.max
+
+}

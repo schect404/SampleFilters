@@ -2,6 +2,7 @@ package com.example.samplearchitecture.presentation.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.samplearchitecture.BR
 import com.example.samplearchitecture.R
@@ -18,6 +19,7 @@ import com.github.nitrico.lastadapter.LastAdapter
 import kotlinx.android.synthetic.main.fragment_matches.*
 import kotlinx.coroutines.flow.*
 import org.koin.android.ext.android.get
+import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MatchesFragment: BaseFragment<MatchesContract.ViewIntent,
