@@ -2,12 +2,13 @@ package com.example.samplearchitecture.presentation.main
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.samplearchitecture.BR
 import com.example.samplearchitecture.R
 import com.example.samplearchitecture.base.BaseFragment
 import com.example.samplearchitecture.common.AsyncObservableList
+import com.example.samplearchitecture.databinding.ItemBooleanFilterMainBinding
+import com.example.samplearchitecture.databinding.ItemRangeFilterMainBinding
 import com.example.samplearchitecture.presentation.filters.FiltersFragmentDialog
 import com.example.samplearchitecture.presentation.filters.delegate.FiltersDelegate
 import com.example.samplearchitecture.presentation.filters.model.Filters
@@ -15,11 +16,13 @@ import com.example.samplearchitecture.presentation.main.model.MatchesItems
 import com.example.samplearchitecture.stub.StubModelIntent
 import com.example.samplearchitecture.utils.attachAdapter
 import com.example.samplearchitecture.utils.clicks
+import com.example.samplearchitecture.utils.clicksOnCancel
 import com.github.nitrico.lastadapter.LastAdapter
 import kotlinx.android.synthetic.main.fragment_matches.*
+import kotlinx.android.synthetic.main.item_boolean_filter_main.view.*
+import kotlinx.android.synthetic.main.item_range_filter_main.view.*
 import kotlinx.coroutines.flow.*
 import org.koin.android.ext.android.get
-import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MatchesFragment: BaseFragment<MatchesContract.ViewIntent,
@@ -44,8 +47,30 @@ class MatchesFragment: BaseFragment<MatchesContract.ViewIntent,
         .map<MatchesItems.Skeleton>(R.layout.item_skeleton_match)
 
     private val filtersAdapter = LastAdapter(filters, BR.item)
-        .map<Filters.BooleanFilter>(R.layout.item_boolean_filter_main)
-        .map<Filters.RangeFilter>(R.layout.item_range_filter_main)
+        .map<Filters.BooleanFilter, ItemBooleanFilterMainBinding>(R.layout.item_boolean_filter_main) {
+            onCreate { holder ->
+                lifecycleScope.launchWhenStarted {
+                    holder.itemView.chip.clicksOnCancel()
+                        .onEach {
+                            holder.binding.item?.let {
+                                flow.value = MatchesContract.ViewIntent.FilterRemoved(it.id)
+                            }
+                        }.collect()
+                }
+            }
+        }
+        .map<Filters.RangeFilter, ItemRangeFilterMainBinding>(R.layout.item_range_filter_main) {
+            onCreate { holder ->
+                lifecycleScope.launchWhenStarted {
+                    holder.itemView.chipRange.clicksOnCancel()
+                        .onEach {
+                            holder.binding.item?.let {
+                                flow.value = MatchesContract.ViewIntent.FilterRemoved(it.id)
+                            }
+                        }.collect()
+                }
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -15,6 +15,8 @@ sealed class Filters(
 
     open fun copyEntity() = this
 
+    open fun removeFilterGetNew(): Filters = this
+
     @Parcelize
     data class BooleanFilter(
         val type: AvailableFilters,
@@ -29,6 +31,8 @@ sealed class Filters(
         }
 
         override fun getFilterData() = isFilterActive
+
+        override fun removeFilterGetNew() = copy(isFilterActivePrivate = null)
 
         override fun copyEntity() = copy()
     }
@@ -48,6 +52,8 @@ sealed class Filters(
         }
 
         override fun getFilterData() = rangeCurrent
+
+        override fun removeFilterGetNew() = copy(rangeCurrentPrivate = rangeMax)
 
         override fun copyEntity() = copy()
     }

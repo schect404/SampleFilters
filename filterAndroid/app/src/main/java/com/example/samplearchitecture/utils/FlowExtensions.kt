@@ -5,6 +5,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,13 @@ fun View.clicks(): Flow<View> {
     return callbackFlow {
         setOnClickListener { offer(it) }
         awaitClose { setOnClickListener(null) }
+    }
+}
+
+fun Chip.clicksOnCancel(): Flow<View> {
+    return callbackFlow {
+        setOnCloseIconClickListener { offer(it) }
+        awaitClose { setOnCloseIconClickListener(null) }
     }
 }
 

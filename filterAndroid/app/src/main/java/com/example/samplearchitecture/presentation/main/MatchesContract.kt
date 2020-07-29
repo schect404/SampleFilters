@@ -15,6 +15,7 @@ interface MatchesContract {
 
         object Initial: ViewIntent()
         data class FiltersChanged(val filters: List<Filters>): ViewIntent()
+        data class FilterRemoved(val id: String): ViewIntent()
 
     }
 
@@ -48,6 +49,15 @@ interface MatchesContract {
         object Error : PartialChange() {
             override fun reduceToState(initialState: ViewState) =
                 initialState.copy(items = listOf(MatchesItems.Error))
+        }
+
+        class FilterRemoved(val id: String) : PartialChange() {
+            override fun reduceToState(initialState: ViewState): ViewState {
+                val listWithNewFilters = initialState.filters.map {
+                    if(it.id == id) it.removeFilterGetNew() else it
+                }
+                return initialState.copy(filters = listWithNewFilters)
+            }
         }
 
     }

@@ -22,9 +22,18 @@ class MatchesActor(private val matchesInteractor: MatchesInteractor) : BaseActor
         val filtersChangedFlow = filterIsInstance<MatchesContract.ViewIntent.FiltersChanged>()
             .flatMapConcat { getMatches(it.filters) }
 
+        val filterRemovedFlow = filterIsInstance<MatchesContract.ViewIntent.FilterRemoved>()
+            .flatMapConcat { filterIntent ->
+                val listWithNewFilters = viewState.value?.filters?.map {
+                    if(it.id == filterIntent.id) it.removeFilterGetNew() else it
+                } ?: listOf()
+                getMatches(listWithNewFilters)
+            }
+
         return merge(
             initialFlow,
-            filtersChangedFlow
+            filtersChangedFlow,
+            filterRemovedFlow
         )
     }
 
